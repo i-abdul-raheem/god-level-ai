@@ -25,10 +25,8 @@ def matmul(a: list[list[float]], b: list[list[float]]) -> list[list[float]]:
         )
 
     try:
-        return [
-            [sum(a[i][k] * b[k][j] for k in range(len(b))) for j in range(len(b[0]))]
-            for i in range(len(a))
-        ]
+        b_transpose = [list(row) for row in zip(*b)]
+        return [[dot(row, col) for col in b_transpose] for row in a]
     except (TypeError, IndexError) as e:
         raise ValueError(f"Invalid matrix: {e}")
 
@@ -45,6 +43,4 @@ def softmax(logits: list[float]) -> list[float]:
 def ce(probs: list[float], target: int) -> float:
     if target < 0 or target >= len(probs):
         raise ValueError("Target is out of bounds")
-    return round(
-        -log(probs[target]), 5
-    )
+    return round(-log(probs[target]), 5)

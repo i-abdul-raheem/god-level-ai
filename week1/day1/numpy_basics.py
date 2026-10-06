@@ -45,7 +45,6 @@ def softmax(logits: list[float]) -> list[float]:
 def ce(probs: list[float], target: int) -> float:
     if target < 0 or target >= len(probs):
         raise ValueError("Target is out of bounds")
-    hot_encoded = [1 if i == target else 0 for i in range(len(probs))]
     return round(
-        -sum([actual * log(pred) for pred, actual in zip(probs, hot_encoded)]), 5
+        -log(probs[target]), 5
     )
